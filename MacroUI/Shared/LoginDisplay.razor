@@ -1,3 +1,10 @@
-﻿<AuthorizeView>
+﻿
+<AuthorizeView>
     Hello, @context.User.Identity.Name!
 </AuthorizeView>
+
+<!--Revisit once the domain is hooked up again.-->
+
+@*<AuthorizeView Roles="Admin">
+    Hello, @context.User.Identity.Name / Admin!
+</AuthorizeView>*@
