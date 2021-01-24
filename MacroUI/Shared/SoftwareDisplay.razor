@@ -1,0 +1,57 @@
+﻿@using DataAccess
+@using DataAccess.Models
+@inject ISoftwareData _Softwaredb
+
+@if (software is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Manufacturer</th>
+                <th>Software Title</th>
+                <th>Assigned To</th>
+                <th>Purchase Order</th>
+                <th>License Type</th>
+                <th>Purchse Date</th>
+                <th>Supported</th>
+                <th>Support Exp</th>
+                <th>Total Keys</th>
+                <th>Used Keys</th>
+                <th>License Key</th>
+                <th>Added</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in software)
+            {
+            <tr>
+                <td>@item.Manufacturer</td>
+                <td>@item.SoftwareTitle</td>
+                <td>@item.AssignedTo</td>
+                <td>@item.PurchaseOrder</td>
+                <td>@item.LicenseType</td>
+                <td>@item.PurchaseDate</td>
+                <td>@item.Supported</td>
+                <td>@item.SupportExp</td>
+                <td>@item.TotalKeys</td>
+                <td>@item.UsedKeys</td>
+                <td>@item.LicenseKey</td>
+                <td>@item.Added</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<SoftwareModel> software;
+
+    protected override async Task OnInitializedAsync()
+    {
+        software = await _Softwaredb.GetSoftware();
+    }
+}
