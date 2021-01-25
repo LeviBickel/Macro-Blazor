@@ -1,9 +1,124 @@
-﻿@page "/softwaredashboard"
+﻿@page "/softwaredashboard";
 
-<h3>SoftwareDashboard</h3>
+<h3>Software Dashboard</h3>
 
-<SoftwareDisplay/>
+@using DataAccess
+@using DataAccess.Models
+@using MacroUI.Models
+
+@inject ISoftwareData _Softwaredb
+
+
+<a href="#add">Add a License</a>
+
+
+@if (software is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Manufacturer</th>
+                <th>Software Title</th>
+                <th>Assigned To</th>
+                <th>Purchase Order</th>
+                <th>License Type</th>
+                <th>Purchse Date</th>
+                <th>Supported</th>
+                <th>Support Exp</th>
+                <th>Total Keys</th>
+                <th>Used Keys</th>
+                <th>License Key</th>
+                <th>Added</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in software)
+            {
+                <tr>
+                    <td>@item.Manufacturer</td>
+                    <td>@item.SoftwareTitle</td>
+                    <td>@item.AssignedTo</td>
+                    <td>@item.PurchaseOrder</td>
+                    <td>@item.LicenseType</td>
+                    <td>@item.PurchaseDate</td>
+                    <td>@item.Supported</td>
+                    <td>@item.SupportExp</td>
+                    <td>@item.TotalKeys</td>
+                    <td>@item.UsedKeys</td>
+                    <td>@item.LicenseKey</td>
+                    <td>@item.Added</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div class="card">
+    <a id="add"></a>
+    <div class="card-header">
+        Add a License...
+    </div>
+    <div class="card-body">
+        <EditForm Model="@newLicense" OnValidSubmit="@InsertLicense">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <InputText id="Manufacturer" @bind-Value="@newLicense.Manufacturer" placeholder="Manufacturer" />
+            <InputText id="SoftwareTitle" @bind-Value="@newLicense.SoftwareTitle" placeholder="Software Title" />
+            <InputText id="AssignedTo" @bind-Value="@newLicense.AssignedTo" placeholder="Installed on" /><br /><br />
+            <InputText id="PurchaseOrder" @bind-Value="@newLicense.PurchaseOrder" placeholder="Purchase Order" />
+            <InputText id="LicenseType" @bind-Value="@newLicense.LicenseType" placeholder="License Type" />
+            <InputText id="LicenseKey" @bind-Value="@newLicense.LicenseKey" placeholder="License Key" /><br /><br />
+            <label for"PurchaseDate">Purchase Date: </label>
+            <InputDate id="PurchaseDate" @bind-Value="@newLicense.PurchaseDate" /><br/>
+            <label for"Supported">Supported: </label>
+            <InputCheckbox id="Supported" @bind-Value="@newLicense.Supported" /><br />
+            <label for"SupportExp">Support Expiration: </label>
+            <InputDate id="SupportExp" @bind-Value="@newLicense.SupportExp" /><br />
+            <label for"TotalKeys">Total Keys: </label>
+            <InputNumber id="TotalKeys" @bind-Value="@newLicense.TotalKeys" /><br />
+            <label for"UsedKeys">Used Keys: </label>
+            <InputNumber id="UsedKeys" @bind-Value="@newLicense.UsedKeys" /><br />
+
+            <InputDate id="Added" @bind-Value="@newLicense.Added" hidden placeholder="Added" />
+            <br />
+            <button class="btn btn-primary" type="submit">Add</button>
+        </EditForm>
+    </div>
+</div>
 
 @code {
+    private List<SoftwareModel> software;
+    private SoftwareDisplayModel newLicense = new SoftwareDisplayModel();
 
+    protected override async Task OnInitializedAsync()
+    {
+        software = await _Softwaredb.GetSoftware();
+    }
+
+    private async Task InsertLicense()
+    {
+        SoftwareModel sm = new SoftwareModel
+        {
+            Manufacturer = newLicense.Manufacturer,
+            SoftwareTitle = newLicense.SoftwareTitle,
+            AssignedTo = newLicense.AssignedTo,
+            PurchaseOrder = newLicense.PurchaseOrder,
+            LicenseType = newLicense.LicenseType,
+            PurchaseDate = newLicense.PurchaseDate,
+            Supported = newLicense.Supported,
+            SupportExp = newLicense.SupportExp,
+            TotalKeys = newLicense.TotalKeys,
+            UsedKeys = newLicense.UsedKeys,
+            LicenseKey = newLicense.LicenseKey,
+            Added = newLicense.Added
+        };
+
+        await _Softwaredb.InsertSoftware(sm);
+        software.Add(sm);
+        newLicense = new SoftwareDisplayModel();
+    }
 }
