@@ -9,7 +9,7 @@ namespace DataAccess.Models
     {
         public int ID { get; set; }
         public string Manufacturer { get; set; }
-        
+        //[Display(Name = "Software Title")]
         public string SoftwareTitle { get; set; }
         public string AssignedTo { get; set; }
         public string PurchaseOrder { get; set; }
