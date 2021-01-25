@@ -5,6 +5,7 @@
 @using DataAccess
 @using DataAccess.Models
 @using MacroUI.Models
+@using BlazorTable
 
 @inject ISoftwareData _Softwaredb
 
@@ -18,7 +19,7 @@
 }
 else
 {
-    <table class="table table-striped">
+    @*<table class="table table-striped">
         <thead>
             <tr>
                 <th>Manufacturer</th>
@@ -54,7 +55,23 @@ else
                 </tr>
             }
         </tbody>
-    </table>
+    </table>*@
+
+    <Table TableItem="@SoftwareModel" Items="software" PageSize="15">
+        <Column TableItem="SoftwareModel" Title="Manufacturer" Field="@(x => x.Manufacturer)" Sortable="true" Filterable="true" Width="10%" />
+        <Column TableItem="SoftwareModel" Title="Software Title" Field="@(x => x.SoftwareTitle)" Sortable="true" Filterable="true" Width="10%" />
+        <Column TableItem="SoftwareModel" Title="Assigned To" Field="@(x => x.AssignedTo)" Sortable="true" Filterable="true" Width="10%" />
+        <Column TableItem="SoftwareModel" Title="Purchase Order" Field="@(x => x.PurchaseOrder)" Sortable="true" Filterable="true" Width="10%" />
+        <Column TableItem="SoftwareModel" Title="License Type" Field="@(x => x.LicenseType)" Sortable="true" Filterable="true" Width="10%" />
+        <Column TableItem="SoftwareModel" Title="License Key" Field="@(x => x.LicenseKey)" Sortable="true" Filterable="true" Width="10%" />
+        <Column TableItem="SoftwareModel" Title="Purchase Date" Field="@(x => x.PurchaseDate)" Sortable="true" Filterable="true" Width="10%" />
+        <Column TableItem="SoftwareModel" Title="Supported" Field="@(x => x.Supported)" Sortable="true" Filterable="true" Width="5%" />
+        <Column TableItem="SoftwareModel" Title="Support Expiration" Field="@(x => x.SupportExp)" Sortable="true" Filterable="true" Width="10%" />
+        <Column TableItem="SoftwareModel" Title="Total Keys" Field="@(x => x.TotalKeys)" Sortable="true" Filterable="true" Width="5%" />
+        <Column TableItem="SoftwareModel" Title="Used Keys" Field="@(x => x.UsedKeys)" Sortable="true" Filterable="true" Width="5%" />
+        <Column TableItem="SoftwareModel" Title="Used Keys" Field="@(x => x.Added)" Sortable="true" Filterable="true" Width="5%" />
+        <Pager ShowPageNumber="true" ShowTotalCount="true"/>
+    </Table>
 }
 
 <div class="card">
