@@ -1,17 +1,10 @@
-using MacroUI.Data;
+using BlazorTable;
+using DataAccess;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataAccess;
-using BlazorTable;
 
 namespace MacroUI
 {
@@ -30,7 +23,6 @@ namespace MacroUI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddTransient<ISQL, SQL>();
             services.AddTransient<ISoftwareData, SoftwareData>();
             services.AddTransient<INetworkData, NetworkData>();
