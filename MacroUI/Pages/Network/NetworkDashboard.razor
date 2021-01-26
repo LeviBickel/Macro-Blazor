@@ -1,0 +1,100 @@
+﻿@page "/networkdashboard";
+<title>Macro - Network Dashboard</title>
+<h3>Network Dashboard</h3>
+
+
+@using DataAccess
+@using DataAccess.Models
+@using MacroUI.Models
+@using BlazorTable
+
+@inject INetworkData _Networkdb
+@inject AuthenticationStateProvider _authProvider
+
+@if (network is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<Table TableItem="@NetworkModel" Items="network" PageSize="15">
+    <Column TableItem="NetworkModel" Title="CCSD" Field="@(x => x.CCSD)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="NetworkModel" Title="Domain" Field="@(x => x.Domain)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="NetworkModel" Title="Circuit Type" Field="@(x => x.CKT_Type)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="NetworkModel" Title="Source" Field="@(x => x.Source)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="NetworkModel" Title="Source Interface" Field="@(x => x.SInt)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="NetworkModel" Title="Source IP" Field="@(x => x.SIP)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="NetworkModel" Title="Destination" Field="@(x => x.Destination)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="NetworkModel" Title="Destination Interface" Field="@(x => x.DInt)" Sortable="true" Filterable="true" Width="5%" />
+    <Column TableItem="NetworkModel" Title="Destination IP" Field="@(x => x.DIP)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="NetworkModel" Title="CCO" Field="@(x => x.CCO)" Sortable="true" Filterable="true" Width="5%" />
+    <Column TableItem="NetworkModel" Title="Phone" Field="@(x => x.Phone)" Sortable="true" Filterable="true" Width="5%" />
+    <Column TableItem="NetworkModel" Title="Date Added" Field="@(x => x.DateAdded)" Sortable="true" Filterable="true" Width="5%" />
+    <Column TableItem="NetworkModel" Title="Added By" Field="@(x => x.AddedBy)" Sortable="true" Filterable="true" Width="5%" />
+    <Pager ShowPageNumber="true" ShowTotalCount="true" />
+</Table>
+}
+
+
+<div class="card">
+    <a id="add"></a>
+    <div class="card-header">
+        Add a Network Item...
+    </div>
+    <div class="card-body">
+        <EditForm Model="@newNetwork" OnValidSubmit="@InsertNetworkItem">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <InputText id="CCSD" @bind-Value="@newNetwork.CCSD" placeholder="CCSD" />
+            <InputText id="Domain" @bind-Value="@newNetwork.Domain" placeholder="Domain" />
+            <InputText id="CKT_Type" @bind-Value="@newNetwork.CKT_Type" placeholder="Circuit Type" /><br /><br />
+            <InputText id="Source" @bind-Value="@newNetwork.Source" placeholder="Source" />
+            <InputText id="SInt" @bind-Value="@newNetwork.SInt" placeholder="Source Interface" />
+            <InputText id="SIP" @bind-Value="@newNetwork.SIP" placeholder="Source IP" /><br /><br />
+            <InputText id="Destination" @bind-Value="@newNetwork.Destination" placeholder="Destination" />
+            <InputText id="DInt" @bind-Value="@newNetwork.DInt" placeholder="Destination Interface" />
+            <InputText id="DIP" @bind-Value="@newNetwork.DIP" placeholder="Destination IP" /><br /><br />
+            <InputText id="CCO" @bind-Value="@newNetwork.CCO" placeholder="CCO" />
+            <InputText id="Phone" @bind-Value="@newNetwork.Phone" placeholder="Phone# xx-xxx-xxx-xxxx" /><br />
+            <br />
+            <button class="btn btn-primary" type="submit">Add</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private List<NetworkModel> network;
+    private NetworkDisplayModel newNetwork = new NetworkDisplayModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        network = await _Networkdb.GetNetwork();
+    }
+
+    private async Task InsertNetworkItem()
+    {
+        List<NetworkModel> currentNetwork = await _Networkdb.GetNetwork();
+        int index = currentNetwork.Count();
+        NetworkModel nm = new NetworkModel
+        {
+            ID = index,
+            CCSD = newNetwork.CCSD,
+            Domain = newNetwork.Domain,
+            CKT_Type = newNetwork.CKT_Type,
+            Source = newNetwork.Source,
+            SInt = newNetwork.SInt,
+            SIP = newNetwork.SIP,
+            Destination = newNetwork.Destination,
+            DInt = newNetwork.DInt,
+            DIP = newNetwork.DIP,
+            CCO = newNetwork.CCO,
+            Phone = newNetwork.Phone,
+            DateAdded = DateTime.Now,
+            AddedBy = _authProvider.GetAuthenticationStateAsync().Result.User.Identity.Name
+        };
+
+        await _Networkdb.InsertNetwork(nm);
+        network.Add(nm);
+        newNetwork = new NetworkDisplayModel();
+    }
+}

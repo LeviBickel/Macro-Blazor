@@ -25,6 +25,7 @@ namespace MacroUI
             services.AddServerSideBlazor();
             services.AddTransient<ISQL, SQL>();
             services.AddTransient<ISoftwareData, SoftwareData>();
+            services.AddTransient<INetworkData, NetworkData>();
             services.AddBlazorTable();
         }
 
@@ -53,6 +54,7 @@ namespace MacroUI
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+            
         }
     }
 }
