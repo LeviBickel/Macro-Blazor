@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
+using BlazorTable;
 
 namespace MacroUI
 {
@@ -32,6 +33,7 @@ namespace MacroUI
             services.AddSingleton<WeatherForecastService>();
             services.AddTransient<ISQL, SQL>();
             services.AddTransient<ISoftwareData, SoftwareData>();
+            services.AddBlazorTable();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
