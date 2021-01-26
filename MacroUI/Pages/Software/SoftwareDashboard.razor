@@ -10,8 +10,6 @@
 @inject ISoftwareData _Softwaredb
 
 
-<a href="#add">Add a License</a>
-
 
 @if (software is null)
 {
@@ -19,44 +17,6 @@
 }
 else
 {
-    @*<table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Manufacturer</th>
-                <th>Software Title</th>
-                <th>Assigned To</th>
-                <th>Purchase Order</th>
-                <th>License Type</th>
-                <th>Purchse Date</th>
-                <th>Supported</th>
-                <th>Support Exp</th>
-                <th>Total Keys</th>
-                <th>Used Keys</th>
-                <th>License Key</th>
-                <th>Added</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in software)
-            {
-                <tr>
-                    <td>@item.Manufacturer</td>
-                    <td>@item.SoftwareTitle</td>
-                    <td>@item.AssignedTo</td>
-                    <td>@item.PurchaseOrder</td>
-                    <td>@item.LicenseType</td>
-                    <td>@item.PurchaseDate</td>
-                    <td>@item.Supported</td>
-                    <td>@item.SupportExp</td>
-                    <td>@item.TotalKeys</td>
-                    <td>@item.UsedKeys</td>
-                    <td>@item.LicenseKey</td>
-                    <td>@item.Added</td>
-                </tr>
-            }
-        </tbody>
-    </table>*@
-
     <Table TableItem="@SoftwareModel" Items="software" PageSize="15">
         <Column TableItem="SoftwareModel" Title="Manufacturer" Field="@(x => x.Manufacturer)" Sortable="true" Filterable="true" Width="10%" />
         <Column TableItem="SoftwareModel" Title="Software Title" Field="@(x => x.SoftwareTitle)" Sortable="true" Filterable="true" Width="10%" />
@@ -69,7 +29,7 @@ else
         <Column TableItem="SoftwareModel" Title="Support Expiration" Field="@(x => x.SupportExp)" Sortable="true" Filterable="true" Width="10%" />
         <Column TableItem="SoftwareModel" Title="Total Keys" Field="@(x => x.TotalKeys)" Sortable="true" Filterable="true" Width="5%" />
         <Column TableItem="SoftwareModel" Title="Used Keys" Field="@(x => x.UsedKeys)" Sortable="true" Filterable="true" Width="5%" />
-        <Column TableItem="SoftwareModel" Title="Used Keys" Field="@(x => x.Added)" Sortable="true" Filterable="true" Width="5%" />
+        <Column TableItem="SoftwareModel" Title="Date Added" Field="@(x => x.Added)" Sortable="true" Filterable="true" Width="5%" />
         <Pager ShowPageNumber="true" ShowTotalCount="true"/>
     </Table>
 }
@@ -90,7 +50,7 @@ else
             <InputText id="LicenseType" @bind-Value="@newLicense.LicenseType" placeholder="License Type" />
             <InputText id="LicenseKey" @bind-Value="@newLicense.LicenseKey" placeholder="License Key" /><br /><br />
             <label for"PurchaseDate">Purchase Date: </label>
-            <InputDate id="PurchaseDate" @bind-Value="@newLicense.PurchaseDate" /><br/>
+            <InputDate id="PurchaseDate" @bind-Value="@newLicense.PurchaseDate"/><br/>
             <label for"Supported">Supported: </label>
             <InputCheckbox id="Supported" @bind-Value="@newLicense.Supported" /><br />
             <label for"SupportExp">Support Expiration: </label>
@@ -99,8 +59,6 @@ else
             <InputNumber id="TotalKeys" @bind-Value="@newLicense.TotalKeys" /><br />
             <label for"UsedKeys">Used Keys: </label>
             <InputNumber id="UsedKeys" @bind-Value="@newLicense.UsedKeys" /><br />
-
-            <InputDate id="Added" @bind-Value="@newLicense.Added" hidden placeholder="Added" />
             <br />
             <button class="btn btn-primary" type="submit">Add</button>
         </EditForm>
@@ -118,8 +76,11 @@ else
 
     private async Task InsertLicense()
     {
+        List<SoftwareModel> currentSoftware = await _Softwaredb.GetSoftware();
+        int index = currentSoftware.Count();
         SoftwareModel sm = new SoftwareModel
         {
+            ID = index,
             Manufacturer = newLicense.Manufacturer,
             SoftwareTitle = newLicense.SoftwareTitle,
             AssignedTo = newLicense.AssignedTo,
@@ -131,7 +92,7 @@ else
             TotalKeys = newLicense.TotalKeys,
             UsedKeys = newLicense.UsedKeys,
             LicenseKey = newLicense.LicenseKey,
-            Added = newLicense.Added
+            Added = DateTime.Now
         };
 
         await _Softwaredb.InsertSoftware(sm);
