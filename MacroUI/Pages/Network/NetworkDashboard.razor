@@ -1,5 +1,4 @@
 ﻿@page "/networkdashboard";
-<title>Macro - Network Dashboard</title>
 <h3>Network Dashboard</h3>
 
 
@@ -18,7 +17,7 @@
 else
 {
 <Table TableItem="@NetworkModel" Items="network" PageSize="15">
-    <Column TableItem="NetworkModel" Title="CCSD" Field="@(x => x.CCSD)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="NetworkModel" Title="CCSD" Field="@(x => x.CCSD)" Sortable="true" Filterable="true" Width="10%"/>
     <Column TableItem="NetworkModel" Title="Domain" Field="@(x => x.Domain)" Sortable="true" Filterable="true" Width="10%" />
     <Column TableItem="NetworkModel" Title="Circuit Type" Field="@(x => x.CKT_Type)" Sortable="true" Filterable="true" Width="10%" />
     <Column TableItem="NetworkModel" Title="Source" Field="@(x => x.Source)" Sortable="true" Filterable="true" Width="10%" />
