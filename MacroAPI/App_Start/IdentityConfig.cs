@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using MacroAPI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using MacroAPI.Models;
 
 namespace MacroAPI
 {
