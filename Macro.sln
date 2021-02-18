@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MacroUI", "MacroUI\MacroUI.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{65B15A11-4D28-48EA-B23D-2DAE634C2D15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacroAPI", "MacroAPI\MacroAPI.csproj", "{F062603C-91F0-4C4D-A9B2-45706F197D18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacroAPI", "MacroAPI\MacroAPI.csproj", "{87455EFE-E43F-448A-B308-D295F174990A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{65B15A11-4D28-48EA-B23D-2DAE634C2D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65B15A11-4D28-48EA-B23D-2DAE634C2D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65B15A11-4D28-48EA-B23D-2DAE634C2D15}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F062603C-91F0-4C4D-A9B2-45706F197D18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F062603C-91F0-4C4D-A9B2-45706F197D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F062603C-91F0-4C4D-A9B2-45706F197D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F062603C-91F0-4C4D-A9B2-45706F197D18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87455EFE-E43F-448A-B308-D295F174990A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87455EFE-E43F-448A-B308-D295F174990A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87455EFE-E43F-448A-B308-D295F174990A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87455EFE-E43F-448A-B308-D295F174990A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
