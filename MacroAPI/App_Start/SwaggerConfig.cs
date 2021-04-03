@@ -2,13 +2,15 @@ using System.Web.Http;
 using WebActivatorEx;
 using MacroAPI;
 using Swashbuckle.Application;
-
+using MacroAPI.App_Start;
+#if(DEBUG)
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
 namespace MacroAPI
 {
     public class SwaggerConfig
     {
+
         public static void Register()
         {
             var thisAssembly = typeof(SwaggerConfig).Assembly;
@@ -16,6 +18,8 @@ namespace MacroAPI
             GlobalConfiguration.Configuration
                 .EnableSwagger(c =>
                     {
+                        c.DocumentFilter<AuthTokenOperation>();
+                        c.OperationFilter<AuthorizationOperationFilter>();
                         // By default, the service root url is inferred from the request used to access the docs.
                         // However, there may be situations (e.g. proxy and load-balanced environments) where this does not
                         // resolve correctly. You can workaround this by providing your own code to determine the root URL.
@@ -36,7 +40,7 @@ namespace MacroAPI
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //
-                        //c.PrettyPrint();
+                        c.PrettyPrint();
 
                         // If your API has multiple versions, use "MultipleApiVersions" instead of "SingleApiVersion".
                         // In this case, you must provide a lambda that tells Swashbuckle which actions should be
@@ -143,7 +147,7 @@ namespace MacroAPI
                         // enum type. Swashbuckle will honor this change out-of-the-box. However, if you use a different
                         // approach to serialize enums as strings, you can also force Swashbuckle to describe them as strings.
                         //
-                        //c.DescribeAllEnumsAsStrings();
+                        c.DescribeAllEnumsAsStrings();
 
                         // Similar to Schema filters, Swashbuckle also supports Operation and Document filters:
                         //
@@ -182,7 +186,7 @@ namespace MacroAPI
                         // Use the "DocumentTitle" option to change the Document title.
                         // Very helpful when you have multiple Swagger pages open, to tell them apart.
                         //
-                        //c.DocumentTitle("My Swagger UI");
+                        c.DocumentTitle("Macro API");
 
                         // Use the "InjectStylesheet" option to enrich the UI with one or more additional CSS stylesheets.
                         // The file must be included in your project as an "Embedded Resource", and then the resource's
@@ -253,3 +257,4 @@ namespace MacroAPI
         }
     }
 }
+#endif
